@@ -42,10 +42,3 @@ sequenceDiagram
 ```
 
 ---
-
-## Fichiers Python liés
-
-- `442_IA.py` : reçoit le plateau depuis la STM32, utilise un modèle appris, et renvoie un plateau mis à jour.
-- `training_dame.py` : script d’apprentissage par renforcement d’un réseau de neurones pour apprendre à jouer.
-
-Ces fichiers permettent de déporter toute l’intelligence du jeu vers le PC, rendant la carte STM32 responsable uniquement de l’interface et de l’exécution des ordres.
