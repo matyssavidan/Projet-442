@@ -15,13 +15,31 @@ L'ensemble du projet combine ainsi une interface utilisateur embarquée fluide, 
 
 ## Diagramme 1 – Tâches FreeRTOS et synchronisation
 
+
 ```mermaid
 graph TD
-  T_display[Task: Display] -->|Suspend/Resume| T_display
-  T_move[Task: Move] -->|acquire mutex| SharedBoard
-  T_display -->|acquire mutex| SharedBoard
-  TouchInput[Touch Input] --> T_move
-  UART[UART RX/TX] --> T_move
+  subgraph FreeRTOS_Tasks
+    T_display["Display Task"]
+    T_move["Move Task"]
+  end
+
+  subgraph Shared_Resources
+    Mutex["osMutex (myMutex01)"]
+    Board["Grille de jeu"]
+  end
+
+  subgraph Inputs
+    Touch["Entrée tactile"]
+    UART["UART RX/TX"]
+  end
+
+  Touch --> T_move
+  UART --> T_move
+  T_display -->|acquire| Mutex
+  T_move -->|acquire| Mutex
+  T_display -->|accès| Board
+  T_move -->|modifie| Board
+  T_move -->|relance| T_display
 
 ```
 
